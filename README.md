@@ -81,9 +81,9 @@ megakino.lol
 
 ### megakino-domain-history.txt
 ```
-2025-12-24T13:45:23 UTC | megakino.do | megakino.lol
-2025-12-20T09:12:45 UTC | megakino.com | megakino.do
-2025-12-15T14:30:11 UTC | megakino.net | megakino.com
+2025-12-24 13:26:59 UTC | megakino.do → megakino.lol
+2025-12-26 12:36:45 UTC | megakino.com → megakino.do
+2025-12-30 13:30:11 UTC | megakino.net → megakino.com
 ```
 
 ## 🔧 Technical Details
