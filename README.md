@@ -101,3 +101,11 @@ Contributions are welcome! Feel free to create issues or pull requests for bug f
 ## 📝 License
 
 This project is licensed under the MIT License.
+
+## ⚠️ Notice
+
+This tool is intended for monitoring purposes. Please respect the robots.txt and terms of service of the monitored websites.
+
+---
+
+**Created with ❤️ and GitHub Actions**
