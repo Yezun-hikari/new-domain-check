@@ -8,12 +8,12 @@ Many websites regularly change their domain endings (e.g., from `.do` to `.lol` 
 - ✅ Automatically checks the current domain
 - ✅ Detects redirects and domain changes
 - ✅ Stores the history of all domain changes
-- ✅ Runs every 5 minutes via GitHub Actions
+- ✅ Runs every 6 hours via GitHub Actions
 - ✅ Automatically commits changes to the repository
 
 ## 🚀 Features
 
-- **Automatic Checks**: Runs every 5 minutes via GitHub Actions cron job
+- **Automatic Checks**: Runs every 6 hours via GitHub Actions cron job
 - **Redirect Detection**: Follows HTTP redirects and extracts the final URL
 - **Domain History**: Stores all domain changes with timestamps in `megakino-domain-history.txt`
 - **Current Domain**: The currently active domain is stored in `current-megakino-domain.txt`
@@ -33,7 +33,7 @@ Many websites regularly change their domain endings (e.g., from `.do` to `.lol` 
 
 ## ⚙️ How It Works
 
-1. **Workflow Trigger**: The GitHub Actions workflow runs every 5 minutes (`cron: '*/5 * * * *'`)
+1. **Workflow Trigger**: The GitHub Actions workflow runs every 6 hours (`cron: '*/5 * * * *'`)
 2. **Read Domain**: The current domain is read from `current-megakino-domain.txt`
 3. **Redirect Check**: An HTTP request follows all redirects to the final URL
 4. **Comparison**: The final domain is compared with the stored domain
@@ -61,7 +61,7 @@ echo "your-domain.com" > current-megakino-domain.txt
 Edit `.github/workflows/check-megakino-domain.yml` and adjust the following values:
 
 - **Workflow Name**: Line 1
-- **Cron Schedule**: Line 4 (default: every 5 minutes)
+- **Cron Schedule**: Line 4 (default: every 6 hours)
 - **File Names**: If you want to use different file names
 
 ### 4. Set Permissions
