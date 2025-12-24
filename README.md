@@ -1,78 +1,78 @@
 # 🔍 New Domain Check
 
-Automatisierte Domain-Überwachung mit GitHub Actions. Dieses Repository überwacht Domains, die häufig ihre Top-Level-Domain (TLD) ändern, und hält dich über Änderungen auf dem Laufenden.
+Automated domain monitoring with GitHub Actions. This repository tracks domains that frequently change their top-level domain (TLD), keeping you informed about changes.
 
-## 📋 Übersicht
+## 📋 Overview
 
-Viele Websites ändern regelmäßig ihre Domain-Endungen (z.B. von `.do` zu `.lol` zu `.com`). Dieses Tool:
-- ✅ Überprüft automatisch die aktuelle Domain
-- ✅ Erkennt Redirects und Domain-Änderungen
-- ✅ Speichert die Historie aller Domain-Änderungen
-- ✅ Läuft alle 5 Minuten über GitHub Actions
-- ✅ Commitet Änderungen automatisch ins Repository
+Many websites regularly change their domain endings (e.g., from `.do` to `.lol` to `.com`). This tool:
+- ✅ Automatically checks the current domain
+- ✅ Detects redirects and domain changes
+- ✅ Stores the history of all domain changes
+- ✅ Runs every 5 minutes via GitHub Actions
+- ✅ Automatically commits changes to the repository
 
 ## 🚀 Features
 
-- **Automatische Überprüfung**: Läuft alle 5 Minuten via GitHub Actions Cron-Job
-- **Redirect-Erkennung**: Folgt HTTP-Redirects und extrahiert die finale URL
-- **Domain-Historie**: Speichert alle Domain-Änderungen mit Zeitstempel in `megakino-domain-history.txt`
-- **Aktuelle Domain**: Die aktuell aktive Domain wird in `current-megakino-domain.txt` gespeichert
-- **Automatische Commits**: Änderungen werden automatisch ins Repository gepusht
+- **Automatic Checks**: Runs every 5 minutes via GitHub Actions cron job
+- **Redirect Detection**: Follows HTTP redirects and extracts the final URL
+- **Domain History**: Stores all domain changes with timestamps in `megakino-domain-history.txt`
+- **Current Domain**: The currently active domain is stored in `current-megakino-domain.txt`
+- **Automatic Commits**: Changes are automatically pushed to the repository
 
-## 📂 Dateistruktur
+## 📂 File Structure
 
 ```
 .
 ├── .github/
 │   └── workflows/
 │       └── check-megakino-domain.yml    # GitHub Actions Workflow
-├── current-megakino-domain.txt          # Aktuelle Domain
-├── megakino-domain-history.txt          # Historie aller Änderungen
-└── README.md                            # Diese Datei
+├── current-megakino-domain.txt          # Current domain
+├── megakino-domain-history.txt          # History of all changes
+└── README.md                            # This file
 ```
 
-## ⚙️ Wie es funktioniert
+## ⚙️ How It Works
 
-1. **Workflow-Trigger**: Der GitHub Actions Workflow wird alle 5 Minuten ausgeführt (`cron: '*/5 * * * *'`)
-2. **Domain auslesen**: Die aktuelle Domain wird aus `current-megakino-domain.txt` gelesen
-3. **Redirect-Check**: Ein HTTP-Request folgt allen Redirects zur finalen URL
-4. **Vergleich**: Die finale Domain wird mit der gespeicherten Domain verglichen
-5. **Bei Änderung**:
-   - Die neue Domain wird in `current-megakino-domain.txt` gespeichert
-   - Ein Eintrag mit Zeitstempel wird zur Historie hinzugefügt
-   - Die Änderungen werden automatisch committed und gepusht
+1. **Workflow Trigger**: The GitHub Actions workflow runs every 5 minutes (`cron: '*/5 * * * *'`)
+2. **Read Domain**: The current domain is read from `current-megakino-domain.txt`
+3. **Redirect Check**: An HTTP request follows all redirects to the final URL
+4. **Comparison**: The final domain is compared with the stored domain
+5. **On Change**:
+   - The new domain is saved to `current-megakino-domain.txt`
+   - An entry with timestamp is added to the history
+   - Changes are automatically committed and pushed
 
-## 🛠️ Anpassung für eigene Domains
+## 🛠️ Customization for Your Own Domains
 
-### 1. Repository forken
+### 1. Fork Repository
 
-Forke dieses Repository zu deinem eigenen GitHub Account.
+Fork this repository to your own GitHub account.
 
-### 2. Domain ändern
+### 2. Change Domain
 
-Bearbeite `current-megakino-domain.txt` und trage deine zu überwachende Domain ein:
+Edit `current-megakino-domain.txt` and enter your domain to monitor:
 
 ```bash
-echo "deine-domain.com" > current-megakino-domain.txt
+echo "your-domain.com" > current-megakino-domain.txt
 ```
 
-### 3. Workflow anpassen (optional)
+### 3. Customize Workflow (Optional)
 
-Bearbeite `.github/workflows/check-megakino-domain.yml` und passe folgende Werte an:
+Edit `.github/workflows/check-megakino-domain.yml` and adjust the following values:
 
-- **Workflow-Name**: Zeile 1
-- **Cron-Schedule**: Zeile 4 (Standard: alle 5 Minuten)
-- **Dateinamen**: Falls du andere Dateinamen verwenden möchtest
+- **Workflow Name**: Line 1
+- **Cron Schedule**: Line 4 (default: every 5 minutes)
+- **File Names**: If you want to use different file names
 
-### 4. Permissions setzen
+### 4. Set Permissions
 
-Stelle sicher, dass der Workflow Schreibrechte hat:
+Make sure the workflow has write permissions:
 
-1. Gehe zu **Settings** → **Actions** → **General**
-2. Unter **Workflow permissions** wähle **Read and write permissions**
-3. Aktiviere **Allow GitHub Actions to create and approve pull requests**
+1. Go to **Settings** → **Actions** → **General**
+2. Under **Workflow permissions** select **Read and write permissions**
+3. Enable **Allow GitHub Actions to create and approve pull requests**
 
-## 📊 Beispiel-Output
+## 📊 Example Output
 
 ### current-megakino-domain.txt
 ```
@@ -86,43 +86,43 @@ megakino.lol
 2025-12-15T14:30:11 UTC | megakino.net | megakino.com
 ```
 
-## 🔧 Technische Details
+## 🔧 Technical Details
 
 ### GitHub Actions Workflow
 
-Der Workflow verwendet:
-- **Ubuntu Latest** als Runner
-- **Bash-Scripting** für die Domain-Checks
-- **curl** mit `--location` Flag zum Folgen von Redirects
-- **Git-Automatisierung** für automatische Commits
+The workflow uses:
+- **Ubuntu Latest** as runner
+- **Bash scripting** for domain checks
+- **curl** with `--location` flag to follow redirects
+- **Git automation** for automatic commits
 
-### Redirect-Verfolgung
+### Redirect Tracking
 
 ```bash
 curl --silent --location --output /dev/null --write-out "%{url_effective}" "$DOMAIN"
 ```
 
-Dieser Befehl:
-- Folgt allen HTTP-Redirects (`--location`)
-- Gibt die finale URL aus (`--write-out`)
-- Verwirft die Response-Body (`--output /dev/null`)
+This command:
+- Follows all HTTP redirects (`--location`)
+- Outputs the final URL (`--write-out`)
+- Discards the response body (`--output /dev/null`)
 
 ## 🤝 Contributing
 
-Beiträge sind willkommen! Erstelle gerne Issues oder Pull Requests für:
-- Bug-Fixes
-- Neue Features
-- Dokumentations-Verbesserungen
-- Zusätzliche Domain-Checks
+Contributions are welcome! Feel free to create issues or pull requests for:
+- Bug fixes
+- New features
+- Documentation improvements
+- Additional domain checks
 
-## 📝 Lizenz
+## 📝 License
 
-Dieses Projekt steht unter der MIT License.
+This project is licensed under the MIT License.
 
-## ⚠️ Hinweis
+## ⚠️ Notice
 
-Dieses Tool ist für Monitoring-Zwecke gedacht. Bitte respektiere die Robots.txt und Terms of Service der überwachten Websites.
+This tool is intended for monitoring purposes. Please respect the robots.txt and terms of service of the monitored websites.
 
 ---
 
-**Erstellt mit ❤️ und GitHub Actions**
+**Created with ❤️ and GitHub Actions**
