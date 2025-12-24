@@ -4,6 +4,9 @@ on:
     - cron: '0 */6 * * *'  # Alle 6 Stunden
   workflow_dispatch:  # Manueller Start möglich
 
+permissions:
+  contents: write  # ← Das ist der wichtige Teil!
+
 jobs:
   check-megakino:
     runs-on: ubuntu-latest
