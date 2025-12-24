@@ -1,128 +1,103 @@
-# 🔍 New Domain Check
+# 🔍 Automated Domain Monitor
 
-Automated domain monitoring with GitHub Actions. This repository tracks domains that frequently change their top-level domain (TLD), keeping you informed about changes.
+An easy-to-use, automated domain monitoring tool using GitHub Actions. This repository tracks domains that frequently change, keeping you informed about the latest updates.
 
 ## 📋 Overview
 
-Many websites regularly change their domain endings (e.g., from `.do` to `.lol` to `.com`). This tool:
-- ✅ Automatically checks the current domain
-- ✅ Detects redirects and domain changes
-- ✅ Stores the history of all domain changes
-- ✅ Runs every 6 hours via GitHub Actions
-- ✅ Automatically commits changes to the repository
+Many websites regularly change their domains (e.g., from `.com` to `.org` to `.net`). This tool allows you to:
+- ✅ Monitor multiple domains simultaneously
+- ✅ Automatically detect redirects and domain changes
+- ✅ Store a complete history of all domain changes for each monitor
+- ✅ Run checks every 6 hours via GitHub Actions
+- ✅ Automatically commit changes back to the repository
 
 ## 🚀 Features
 
-- **Automatic Checks**: Runs every 6 hours via GitHub Actions cron job
-- **Redirect Detection**: Follows HTTP redirects and extracts the final URL
-- **Domain History**: Stores all domain changes with timestamps in `megakino-domain-history.txt`
-- **Current Domain**: The currently active domain is stored in `current-megakino-domain.txt`
-- **Automatic Commits**: Changes are automatically pushed to the repository
+- **Multi-Domain Support**: Monitor as many domains as you want, each in its own directory.
+- **Automatic Checks**: Runs every 6 hours via a GitHub Actions cron job.
+- **Redirect Detection**: Follows HTTP redirects to find the final, effective URL.
+- **Versioned History**: Stores all domain changes with timestamps in a `history.txt` file for each monitor.
+- **Easy Access**: The current domain for any monitor is always available in a simple `domain.txt` file.
+- **Automatic Commits**: All detected changes are automatically committed and pushed.
 
 ## 📂 File Structure
+
+The repository is organized into individual monitors. Each subdirectory inside `monitors/` represents a separate domain being tracked.
 
 ```
 .
 ├── .github/
 │   └── workflows/
-│       └── check-megakino-domain.yml    # GitHub Actions Workflow
-├── current-megakino-domain.txt          # Current domain
-├── megakino-domain-history.txt          # History of all changes
-└── README.md                            # This file
+│       └── check_domains.yml    # GitHub Actions Workflow for all monitors
+├── monitors/
+│   ├── megakino/                # Example monitor directory
+│   │   ├── domain.txt           # Contains the current domain (e.g., megakino.lol)
+│   │   └── history.txt          # Logs all historical changes
+│   └── another-service/         # Add another monitor just by creating a new folder
+│       ├── domain.txt           # current-domain.com
+│       └── history.txt          # ...
+└── README.md                    # This file
 ```
 
 ## ⚙️ How It Works
 
-1. **Workflow Trigger**: The GitHub Actions workflow runs every 6 hours (`cron: '*/5 * * * *'`)
-2. **Read Domain**: The current domain is read from `current-megakino-domain.txt`
-3. **Redirect Check**: An HTTP request follows all redirects to the final URL
-4. **Comparison**: The final domain is compared with the stored domain
-5. **On Change**:
-   - The new domain is saved to `current-megakino-domain.txt`
-   - An entry with timestamp is added to the history
-   - Changes are automatically committed and pushed
+1.  **Workflow Trigger**: The GitHub Actions workflow runs on a schedule (every 6 hours) or can be started manually.
+2.  **Iterate Monitors**: The script loops through each subdirectory in the `monitors/` directory.
+3.  **Read Domain**: For each monitor, it reads the current domain from its `domain.txt` file.
+4.  **Check for Redirects**: An HTTP request follows all redirects to determine the final URL.
+5.  **Compare & Update**: If the final domain is different from the stored one:
+    - The `domain.txt` file is updated with the new domain.
+    - A new entry with a timestamp is added to the `history.txt` file.
+6.  **Commit Changes**: If any monitor was updated, all changes are bundled into a single commit and pushed to the repository.
 
-## 🛠️ Customization for Your Own Domains
+## 🛠️ How to Add a New Domain to Monitor
 
-### 1. Fork Repository
+Adding a new domain is as simple as creating a new folder and a file.
 
-Fork this repository to your own GitHub account.
+1.  **Create a Directory**:
+    Create a new subdirectory inside the `monitors/` folder. The name of the directory will be the name of your monitor (e.g., `my-service`).
+    ```bash
+    mkdir monitors/my-service
+    ```
 
-### 2. Change Domain
+2.  **Create the Domain File**:
+    Inside your new directory, create a file named `domain.txt` that contains the initial domain you want to track.
+    ```bash
+    echo "example.com" > monitors/my-service/domain.txt
+    ```
 
-Edit `current-megakino-domain.txt` and enter your domain to monitor:
+That's it! The GitHub Action will automatically pick up the new monitor on its next run. An empty `history.txt` will be created and populated automatically on the first change.
 
+## 💡 Accessing the Current Domain
+
+You can easily fetch the current domain for any monitor programmatically using GitHub's raw content URL. This is useful for integrating the latest domain into your own scripts or applications.
+
+The URL format is:
+`https://raw.githubusercontent.com/YOUR_USERNAME/YOUR_REPOSITORY/main/monitors/MONITOR_NAME/domain.txt`
+
+**Example**:
+To get the current domain for the `megakino` monitor, you could use `curl`:
 ```bash
-echo "your-domain.com" > current-megakino-domain.txt
+curl https://raw.githubusercontent.com/your-username/new-domain-check/main/monitors/megakino/domain.txt
 ```
-
-### 3. Customize Workflow (Optional)
-
-Edit `.github/workflows/check-megakino-domain.yml` and adjust the following values:
-
-- **Workflow Name**: Line 1
-- **Cron Schedule**: Line 4 (default: every 6 hours)
-- **File Names**: If you want to use different file names
-
-### 4. Set Permissions
-
-Make sure the workflow has write permissions:
-
-1. Go to **Settings** → **Actions** → **General**
-2. Under **Workflow permissions** select **Read and write permissions**
-3. Enable **Allow GitHub Actions to create and approve pull requests**
 
 ## 📊 Example Output
 
-### current-megakino-domain.txt
+### `monitors/megakino/domain.txt`
 ```
 megakino.lol
 ```
 
-### megakino-domain-history.txt
+### `monitors/megakino/history.txt`
 ```
 2025-12-24 13:26:59 UTC | megakino.do → megakino.lol
 2025-12-26 12:36:45 UTC | megakino.com → megakino.do
-2025-12-30 13:30:11 UTC | megakino.net → megakino.com
 ```
-
-## 🔧 Technical Details
-
-### GitHub Actions Workflow
-
-The workflow uses:
-- **Ubuntu Latest** as runner
-- **Bash scripting** for domain checks
-- **curl** with `--location` flag to follow redirects
-- **Git automation** for automatic commits
-
-### Redirect Tracking
-
-```bash
-curl --silent --location --output /dev/null --write-out "%{url_effective}" "$DOMAIN"
-```
-
-This command:
-- Follows all HTTP redirects (`--location`)
-- Outputs the final URL (`--write-out`)
-- Discards the response body (`--output /dev/null`)
 
 ## 🤝 Contributing
 
-Contributions are welcome! Feel free to create issues or pull requests for:
-- Bug fixes
-- New features
-- Documentation improvements
-- Additional domain checks
+Contributions are welcome! Feel free to create issues or pull requests for bug fixes, new features, or documentation improvements.
 
 ## 📝 License
 
 This project is licensed under the MIT License.
-
-## ⚠️ Notice
-
-This tool is intended for monitoring purposes. Please respect the robots.txt and terms of service of the monitored websites.
-
----
-
-**Created with ❤️ and GitHub Actions**
