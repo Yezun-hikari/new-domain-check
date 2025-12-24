@@ -1,8 +1,8 @@
 name: Check Megakino Domain
 on:
   schedule:
-    - cron: '0 */6 * * *'  # Alle 6 Stunden
-  workflow_dispatch:  # Manueller Start möglich
+    - cron: '*/5 * * * *'  # Alle 5 Minuten
+  workflow_dispatch:
 
 permissions:
   contents: write  # ← Das ist der wichtige Teil!
