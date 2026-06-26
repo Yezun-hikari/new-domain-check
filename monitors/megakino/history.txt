@@ -32,3 +32,4 @@
 2026-06-03 20:54:26 UTC | megakino5.com → megakino5.org
 2026-06-12 10:11:56 UTC | megakino5.org → megakino6.com
 2026-06-19 10:24:31 UTC | megakino6.com → megakino7.com
+2026-06-26 09:24:56 UTC | megakino7.com → megakino8.com
