@@ -45,3 +45,4 @@
 2026-09-04 15:48:27 UTC | megakino17.com → megakino18.com
 2026-09-11 15:55:18 UTC | megakino18.com → megakino19.com
 2026-09-19 03:18:02 UTC | megakino19.com → megakino20.com
+2026-09-25 11:14:05 UTC | megakino20.com → megakino21.com
